@@ -5,6 +5,9 @@ import main.BankAccount;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 public class BankAccountTest {
@@ -90,4 +93,38 @@ public class BankAccountTest {
         assertEquals(60, testAccount.getBalance(), 0.01);
     }
 
+    public void testTransactionHistoryDeposit() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+        List<String> testTransactionHistory = new ArrayList<>();
+        testTransactionHistory.add("Deposited 100");
+        assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
+    }
+
+    @Test
+    public void testTransactionHistoryWithdrawl() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.withdraw(100);
+        List<String> testTransactionHistory = new ArrayList<>();
+        testTransactionHistory.add("Withdrew 100");
+        assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
+    }
+
+    @Test
+    public void testTransactionHistoryCombined() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+        testAccount.withdraw(100);
+        List<String> testTransactionHistory = new ArrayList<>();
+        testTransactionHistory.add("Deposited 100");
+        testTransactionHistory.add("Withdrew 100");
+        assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
+    }
+
+    @Test
+    public void testTransactionHistoryNone() {
+        BankAccount testAccount = new BankAccount();
+        List<String> testTransactionHistory = new ArrayList<>();
+        assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
+    }
 }

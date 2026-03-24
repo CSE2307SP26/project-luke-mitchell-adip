@@ -21,6 +21,7 @@ public class MainMenu {
         System.out.println("1. Make a deposit");
         System.out.println("2. Make a withdrawal");
         System.out.println("3. Check balance");
+        System.out.println("3. Get transaction history");
         System.out.println("4. Exit the app");
 
     }
@@ -45,6 +46,7 @@ public class MainMenu {
             case 3:
             displayBalance();
             break;
+                performTransactionHistory();
         }
     }
 
@@ -56,6 +58,7 @@ public class MainMenu {
         }
         userAccount.deposit(depositAmount);
     }
+
     public void performWithdraw() {
         double withdrawAmount = -1;
         while (withdrawAmount < 0) {
@@ -69,6 +72,12 @@ public class MainMenu {
             System.out.println("Invalid withdrawal amount or insufficient funds.");
         }
     }
+
+    public void performTransactionHistory(){
+        System.out.println("Transaction History:");
+        userAccount.printHistory();
+    }
+    
     public void run() {
         int selection = -1;
         while(selection != EXIT_SELECTION) {
