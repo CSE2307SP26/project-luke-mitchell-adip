@@ -73,6 +73,26 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testInitialBalance() {
+        BankAccount testAccount = new BankAccount();
+        assertEquals(0, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testBalanceAfterDeposit() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(75);
+        assertEquals(75, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testBalanceAfterMultipleTransactions() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+        testAccount.withdraw(40);
+        assertEquals(60, testAccount.getBalance(), 0.01);
+    }
+
     public void testTransactionHistoryDeposit() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(100);

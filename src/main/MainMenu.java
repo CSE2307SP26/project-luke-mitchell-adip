@@ -20,6 +20,7 @@ public class MainMenu {
         
         System.out.println("1. Make a deposit");
         System.out.println("2. Make a withdrawal");
+        System.out.println("3. Check balance");
         System.out.println("3. Get transaction history");
         System.out.println("4. Exit the app");
 
@@ -43,6 +44,8 @@ public class MainMenu {
                 performWithdraw();
                 break;
             case 3:
+            displayBalance();
+            break;
                 performTransactionHistory();
         }
     }
@@ -88,5 +91,11 @@ public class MainMenu {
         MainMenu bankApp = new MainMenu();
         bankApp.run();
     }
+
+    public void displayBalance() {
+    System.out.println("Current balance: " + userAccount.getBalance());
+    }
+
+
 
 }
