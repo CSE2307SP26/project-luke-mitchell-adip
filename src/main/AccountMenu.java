@@ -93,9 +93,5 @@ public class AccountMenu {
         }
     }
 
-    // public static void main(String[] args) {
-    //     AccountMenu accountMenu = new AccountMenu();
-    //     accountMenu.run();
-    // }
     
 }
