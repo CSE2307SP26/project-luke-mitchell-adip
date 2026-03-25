@@ -93,6 +93,7 @@ public class BankAccountTest {
         assertEquals(60, testAccount.getBalance(), 0.01);
     }
 
+    @Test
     public void testTransactionHistoryDeposit() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(100);

@@ -7,6 +7,7 @@ public class BankAccount {
 
     private double balance;
     public List<String> transactionHistory = new ArrayList<>();
+    String name;
 
     public BankAccount() {
         this.balance = 0;
@@ -49,5 +50,12 @@ public class BankAccount {
         return this.balance;
     }
 
-    
+    public String getName(){
+        return this.name;
+    }
+
+    public void setName(String newName){
+        this.name = newName;
+    }
+
 }
