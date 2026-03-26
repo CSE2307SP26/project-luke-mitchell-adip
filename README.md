@@ -2,9 +2,9 @@
 
 ## Team Members:
 
-*
-*
-*
+* Mitchell Sampson
+* Luke Bekemeyer
+* Adip
 *
 
 ## User stories
