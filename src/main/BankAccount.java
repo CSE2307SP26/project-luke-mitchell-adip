@@ -31,6 +31,11 @@ public class BankAccount {
         }
     }
 
+    public void transfer(BankAccount destination, double amount) {
+        this.withdraw(amount);
+        destination.deposit(amount);
+    }
+
     public void printHistory(){
         int transactionHistoryLength = this.transactionHistory.size();
         if (transactionHistoryLength == 0){

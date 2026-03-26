@@ -39,6 +39,28 @@ public class AccountListTest {
     }
 
     @Test
+    public void testAccountRemove() {
+        BankAccount testAccount1 = new BankAccount();
+        BankAccount testAccount2 = new BankAccount();
+        AccountList testAccountList = new AccountList();
+        testAccountList.addAccount(testAccount1);
+        testAccountList.addAccount(testAccount2);
+        testAccountList.removeAccount(0);
+        List<BankAccount> expectedAccountList = new ArrayList<>();
+        expectedAccountList.add(testAccount2);
+        assertEquals(expectedAccountList, testAccountList.getAccountList());
+    }
+
+    @Test
+    public void testAccountRemoveReducesLength() {
+        BankAccount testAccount1 = new BankAccount();
+        AccountList testAccountList = new AccountList();
+        testAccountList.addAccount(testAccount1);
+        testAccountList.removeAccount(0);
+        assertEquals(0, testAccountList.getLength());
+    }
+
+    @Test
     public void testAccountFetch() {
         BankAccount testAccount1 = new BankAccount();
         BankAccount testAccount2 = new BankAccount();

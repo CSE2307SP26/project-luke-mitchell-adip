@@ -33,6 +33,10 @@ public class AccountList {
         accountList.add(newAccount);
     }
 
+    public void removeAccount(int num){
+        accountList.remove(num);
+    }
+
     public List<BankAccount> getAccountList() {
         return accountList;
     }

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 3;
-	private static final int MAX_SELECTION = 3;
+    private static final int EXIT_SELECTION = 5;
+	private static final int MAX_SELECTION = 5;
 
 	public AccountList accountList;
     private Scanner keyboardInput;
@@ -18,10 +18,12 @@ public class MainMenu {
     public void displayOptions() {
         System.out.println("");
         System.out.println("Welcome to the 237 Bank App!");
-        
+
         System.out.println("1. Select an account");
         System.out.println("2. Create an account");
-        System.out.println("3. Exit the app");
+        System.out.println("3. Close an account");
+        System.out.println("4. Transfer funds");
+        System.out.println("5. Exit the app");
 
     }
 
@@ -41,6 +43,12 @@ public class MainMenu {
                 break;
             case 2:
                 performAccountCreation();
+                break;
+            case 3:
+                performAccountClose();
+                break;
+            case 4:
+                performTransfer();
                 break;
         }
     }
@@ -63,6 +71,40 @@ public class MainMenu {
         return newName;
     }
 
+    public void performAccountClose(){
+        accountList.printAccountList();
+        if (accountList.getLength() != 0){
+            int bankNumber = getUserSelection(accountList.getLength());
+            accountList.removeAccount(bankNumber - 1);
+            System.out.println("Account closed.");
+        }
+    }
+
+    public void performTransfer(){
+        if (accountList.getLength() < 2) {
+            System.out.println("You need at least two accounts to transfer funds.");
+            return;
+        }
+        System.out.println("Select the account to transfer FROM:");
+        accountList.printAccountList();
+        int fromIndex = getUserSelection(accountList.getLength()) - 1;
+        System.out.println("Select the account to transfer TO:");
+        accountList.printAccountList();
+        int toIndex = getUserSelection(accountList.getLength()) - 1;
+        if (fromIndex == toIndex) {
+            System.out.println("Cannot transfer to the same account.");
+            return;
+        }
+        System.out.print("Enter amount to transfer: ");
+        double amount = keyboardInput.nextDouble();
+        try {
+            accountList.getAccount(fromIndex).transfer(accountList.getAccount(toIndex), amount);
+            System.out.println("Transfer successful.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Transfer failed. Check the amount and account balance.");
+        }
+    }
+
     public void performAccountCreation(){
         String newName = nameNewAccount();
         BankAccount newAccount = new BankAccount();
@@ -83,5 +125,5 @@ public class MainMenu {
         MainMenu bankApp = new MainMenu();
         bankApp.run();
     }
-    
+
 }
