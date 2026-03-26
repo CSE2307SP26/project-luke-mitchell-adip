@@ -123,6 +123,29 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testTransfer() {
+        BankAccount source = new BankAccount();
+        BankAccount destination = new BankAccount();
+        source.deposit(100);
+        source.transfer(destination, 40);
+        assertEquals(60, source.getBalance(), 0.01);
+        assertEquals(40, destination.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testTransferInsufficientFunds() {
+        BankAccount source = new BankAccount();
+        BankAccount destination = new BankAccount();
+        source.deposit(50);
+        try {
+            source.transfer(destination, 100);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
     public void testTransactionHistoryNone() {
         BankAccount testAccount = new BankAccount();
         List<String> testTransactionHistory = new ArrayList<>();

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 3;
-	private static final int MAX_SELECTION = 3;
+    private static final int EXIT_SELECTION = 4;
+	private static final int MAX_SELECTION = 4;
 
 	public AccountList accountList;
     private Scanner keyboardInput;
@@ -21,7 +21,8 @@ public class MainMenu {
         
         System.out.println("1. Select an account");
         System.out.println("2. Create an account");
-        System.out.println("3. Exit the app");
+        System.out.println("3. Transfer funds");
+        System.out.println("4. Exit the app");
 
     }
 
@@ -42,6 +43,9 @@ public class MainMenu {
             case 2:
                 performAccountCreation();
                 break;
+            case 3:
+                performTransfer();
+                break;
         }
     }
 
@@ -61,6 +65,31 @@ public class MainMenu {
             newName = keyboardInput.nextLine();
         }
         return newName;
+    }
+
+    public void performTransfer(){
+        if (accountList.getLength() < 2) {
+            System.out.println("You need at least two accounts to transfer funds.");
+            return;
+        }
+        System.out.println("Select the account to transfer FROM:");
+        accountList.printAccountList();
+        int fromIndex = getUserSelection(accountList.getLength()) - 1;
+        System.out.println("Select the account to transfer TO:");
+        accountList.printAccountList();
+        int toIndex = getUserSelection(accountList.getLength()) - 1;
+        if (fromIndex == toIndex) {
+            System.out.println("Cannot transfer to the same account.");
+            return;
+        }
+        System.out.print("Enter amount to transfer: ");
+        double amount = keyboardInput.nextDouble();
+        try {
+            accountList.getAccount(fromIndex).transfer(accountList.getAccount(toIndex), amount);
+            System.out.println("Transfer successful.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Transfer failed. Check the amount and account balance.");
+        }
     }
 
     public void performAccountCreation(){
