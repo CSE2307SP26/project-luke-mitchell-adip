@@ -1,11 +1,14 @@
 # project26
 
+## Description
+
+A command-line Java banking application that allows customers to manage bank accounts, including depositing, withdrawing, checking balances, viewing transaction history, creating and closing accounts, and transferring funds between accounts.
+
 ## Team Members:
 
 * Mitchell Sampson
 * Luke Bekemeyer
 * Adip
-*
 
 ## User stories
 
