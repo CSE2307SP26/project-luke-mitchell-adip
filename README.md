@@ -8,7 +8,7 @@ A command-line Java banking application that allows customers to manage bank acc
 
 * Mitchell Sampson
 * Luke Bekemeyer
-* Adip
+* Adip Shrestha
 
 ## User stories
 
