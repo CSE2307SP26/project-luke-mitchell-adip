@@ -4,25 +4,24 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 5;
-	private static final int MAX_SELECTION = 5;
+    private static final int EXIT_SELECTION = 3;
+	private static final int MAX_SELECTION = 3;
 
-	private BankAccount userAccount;
+	public AccountList accountList;
     private Scanner keyboardInput;
 
     public MainMenu() {
-        this.userAccount = new BankAccount();
+        this.accountList = new AccountList();
         this.keyboardInput = new Scanner(System.in);
     }
 
     public void displayOptions() {
+        System.out.println("");
         System.out.println("Welcome to the 237 Bank App!");
         
-        System.out.println("1. Make a deposit");
-        System.out.println("2. Make a withdrawal");
-        System.out.println("3. Check balance");
-        System.out.println("4. Get transaction history");
-        System.out.println("5. Exit the app");
+        System.out.println("1. Select an account");
+        System.out.println("2. Create an account");
+        System.out.println("3. Exit the app");
 
     }
 
@@ -38,48 +37,39 @@ public class MainMenu {
     public void processInput(int selection) {
         switch (selection) {
             case 1:
-                performDeposit();
+                performAccountSelection();
                 break;
             case 2:
-                performWithdraw();
+                performAccountCreation();
                 break;
-            case 3:
-            displayBalance();
-            break;
-            case 4:
-                performTransactionHistory();
-            break;
         }
     }
 
-    public void performDeposit() {
-        double depositAmount = -1;
-        while(depositAmount < 0) {
-            System.out.print("How much would you like to deposit: ");
-            depositAmount = keyboardInput.nextInt();
-        }
-        userAccount.deposit(depositAmount);
-    }
-
-    public void performWithdraw() {
-        double withdrawAmount = -1;
-        while (withdrawAmount < 0) {
-            System.out.print("How much would you like to withdraw: ");
-            withdrawAmount = keyboardInput.nextInt();
-        }
-
-        try {
-            userAccount.withdraw(withdrawAmount);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid withdrawal amount or insufficient funds.");
+    public void performAccountSelection(){
+        accountList.printAccountList();
+        if (accountList.getLength() != 0){
+            int bankNumber = getUserSelection(accountList.getLength());
+            AccountMenu selectedMenu = new AccountMenu(accountList.getAccount(bankNumber - 1));
+            selectedMenu.run();
         }
     }
 
-    public void performTransactionHistory(){
-        System.out.println("Transaction History:");
-        userAccount.printHistory();
+    public String nameNewAccount(){
+        System.out.print("Please name your new account: ");
+        String newName = "";
+        while (newName.isEmpty()){
+            newName = keyboardInput.nextLine();
+        }
+        return newName;
     }
-    
+
+    public void performAccountCreation(){
+        String newName = nameNewAccount();
+        BankAccount newAccount = new BankAccount();
+        newAccount.setName(newName);
+        accountList.addAccount(newAccount);
+    }
+
     public void run() {
         int selection = -1;
         while(selection != EXIT_SELECTION) {
@@ -93,11 +83,5 @@ public class MainMenu {
         MainMenu bankApp = new MainMenu();
         bankApp.run();
     }
-
-    public void displayBalance() {
-    System.out.println("Current balance: " + userAccount.getBalance());
-    }
-
-
-
+    
 }
