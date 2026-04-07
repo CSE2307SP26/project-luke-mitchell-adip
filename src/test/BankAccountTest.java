@@ -151,4 +151,32 @@ public class BankAccountTest {
         List<String> testTransactionHistory = new ArrayList<>();
         assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
     }
+
+    @Test
+    public void testAddZeroIntrest() {
+        BankAccount testAccount = new BankAccount();
+
+        try {
+            testAccount.addIntrest(0.5);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
+    public void testAddIntrest() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.addIntrest(40.0);
+        assertEquals(126.0, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testAddIntrestRounding() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.addIntrest(45.36346);
+        assertEquals(130.82, testAccount.getBalance(), 0.01);
+    }
 }
