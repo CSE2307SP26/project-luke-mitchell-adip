@@ -63,10 +63,10 @@ public class BankAccount {
         this.name = newName;
     }
 
-    public void collectFees(Double fee){
-        if (fee > 0 && fee <= this.balance) {
-            this.balance -= fee;
-            transactionHistory.add("Administrator charged " + String.valueOf(fee) + " in fees.");
+    public void addIntrest(Double intrestPercentage){
+        if(intrestPercentage > 0 && this.balance > 0) {
+            this.balance = Math.round(this.balance * ((intrestPercentage / 100) + 1) * 100) / 100;
+            transactionHistory.add("Added " + String.valueOf(intrestPercentage) + " of intrest");
         } else {
             throw new IllegalArgumentException();
         }
