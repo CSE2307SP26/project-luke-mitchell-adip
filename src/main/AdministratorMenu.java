@@ -20,8 +20,7 @@ public class AdministratorMenu {
         System.out.println("You are logged in as administrator");
 
         System.out.println("1. Collect fees from an account");
-        System.out.println("2. Add intrest to an account");
-        System.out.println("3. Log out as administrator");
+        System.out.println("2. Log out as administrator");
     }
 
     public int getUserSelection(int max) {

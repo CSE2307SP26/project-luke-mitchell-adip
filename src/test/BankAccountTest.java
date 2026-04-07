@@ -151,4 +151,38 @@ public class BankAccountTest {
         List<String> testTransactionHistory = new ArrayList<>();
         assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
     }
+
+    @Test
+    public void testCollectTooMuchFees() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+
+        try {
+            testAccount.collectFees(200.0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
+    public void testCollectFees() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.collectFees(40.0);
+        assertEquals(50.0, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testCollectFeesNegative() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+
+        try {
+            testAccount.collectFees(-10.0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
 }
