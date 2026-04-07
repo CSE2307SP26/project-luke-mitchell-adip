@@ -63,4 +63,12 @@ public class BankAccount {
         this.name = newName;
     }
 
+    public void collectFees(Double fee){
+        if (fee > 0 && fee <= this.balance) {
+            this.balance -= fee;
+            transactionHistory.add("Administrator charged " + String.valueOf(fee) + " in fees.");
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 }
