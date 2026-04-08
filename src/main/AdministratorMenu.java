@@ -64,6 +64,26 @@ public class AdministratorMenu {
         }
     }
 
+    public void performCollectFees() {
+        if (accountList.getLength() < 1) {
+            System.out.println("You need to create an account before you can collect fees.");
+            return;
+        }
+        System.out.println("Select the account to collect fees from:");
+        accountList.printAccountList();
+        int fromIndex = getUserSelection(accountList.getLength()) - 1;
+
+        System.out.print("Enter fee amount: ");
+        double amount = keyboardInput.nextDouble();
+
+        try {
+            accountList.getAccount(fromIndex).collectFees(amount);
+            System.out.println("Fee collected successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Fee collection failed. Amount must be positive and not exceed the account balance.");
+        }
+    }
+
      public void run() {
         int selection = -1;
         while(selection != EXIT_SELECTION) {
