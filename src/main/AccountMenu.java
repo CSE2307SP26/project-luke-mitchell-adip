@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    private static final int EXIT_SELECTION = 5;
-	private static final int MAX_SELECTION = 5;
+    private static final int EXIT_SELECTION = 6;
+	private static final int MAX_SELECTION = 6;
 
 	private BankAccount userAccount;
     private Scanner keyboardInput;
@@ -23,7 +23,8 @@ public class AccountMenu {
         System.out.println("2. Make a withdrawal");
         System.out.println("3. Check balance");
         System.out.println("4. Get transaction history");
-        System.out.println("5. Exit the account menu");
+        System.out.println("5. Login as administrator");
+        System.out.println("6. Exit the account menu");
     }
 
     public int getUserSelection(int max) {

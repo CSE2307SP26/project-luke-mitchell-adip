@@ -153,6 +153,11 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testAddZeroIntrest() {
+        BankAccount testAccount = new BankAccount();
+
+        try {
+            testAccount.addIntrest(0.5);
     public void testCollectTooMuchFees() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(100);
@@ -166,6 +171,21 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testAddIntrest() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.addIntrest(40.0);
+        assertEquals(126.0, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testAddIntrestRounding() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.addIntrest(45.36346);
+        assertEquals(130.82, testAccount.getBalance(), 0.01);
+    }
+}
     public void testCollectFees() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(90);

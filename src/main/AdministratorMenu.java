@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AdministratorMenu {
     
-    private static final int EXIT_SELECTION = 2;
-	private static final int MAX_SELECTION = 2;
+    private static final int EXIT_SELECTION = 3;
+	private static final int MAX_SELECTION = 3;
 
     public AccountList accountList;
     private Scanner keyboardInput;
@@ -19,8 +19,9 @@ public class AdministratorMenu {
         System.out.println("");
         System.out.println("You are logged in as administrator");
 
-        System.out.println("1. Collect fees from an account");
-        System.out.println("2. Log out as administrator");
+        System.out.println("1. Add intrest to an account");
+        System.out.println("2. Collect fees from an account");
+        System.out.println("3. Log out as administrator");
     }
 
     public int getUserSelection(int max) {
@@ -35,32 +36,33 @@ public class AdministratorMenu {
     public void processInput(int selection) {
         switch (selection) {
             case 1:
+                performAddIntrest();
+                break;
+            case 2:
                 performCollectFees();
                 break;
         }
     }
 
-    public void performCollectFees(){
+    public void performAddIntrest(){
         if (accountList.getLength() < 1) {
-            System.out.println("You need to create an account before you can collect fees.");
+            System.out.println("You need to create an account before you can add intrest.");
             return;
         }
-        System.out.println("Select the account to collect fees from:");
+        System.out.println("Select the account to add intrest to:");
         accountList.printAccountList();
         int fromIndex = getUserSelection(accountList.getLength()) - 1;
 
-        System.out.print("Enter fee amount: ");
-        double amount = keyboardInput.nextDouble();
+        System.out.print("Enter intrest percentage: ");
+        double percentage = keyboardInput.nextDouble();
 
         try {
-            accountList.getAccount(fromIndex).collectFees(amount);
-            System.out.println("Collect fee successfull.");
+            accountList.getAccount(fromIndex).addIntrest(percentage);
+            System.out.println("Add intrest successfull.");
         } catch (IllegalArgumentException e) {
-            System.out.println("Collect fee failed. Check the fee amount and account balance.");
+            System.out.println("Add intrest failed. Check the intrest percentage and account balance. Both must be above 0");
         }
     }
-
-
 
      public void run() {
         int selection = -1;
