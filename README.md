@@ -24,12 +24,11 @@ A command-line Java banking application that allows customers to manage bank acc
 
 ## What user stories were completed this iteration?
 
-8. A bank administrator should be able to collect fees from existing accounts when necessary.
-9. A bank administrator should be able to add an interest payment to an existing account when necessary.
+8. A bank administrator should be able to collect fees from existing accounts when necessary. (Luke)
+9. A bank administrator should be able to add an interest payment to an existing account when necessary. (Luke)
+10. A bank customer should be able to enable overdraft protections. (Adip)
 
-Additionally: overdraft protection was added for customer accounts.
-
-Unit tests were also fixed this iteration: repaired broken/incomplete test methods, added missing @Test annotations, fixed transaction history format mismatch, and fixed a test that attempted a withdrawal without a prior deposit.
+Unit tests were also fixed this iteration: repaired broken/incomplete test methods, added missing @Test annotations, fixed transaction history format mismatch, and fixed a test that attempted a withdrawal without a prior deposit. (Mitchell)
 
 ## What user stories do you intend to complete next iteration?
 
