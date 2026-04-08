@@ -1,4 +1,4 @@
 #!/bin/bash
-cd src/main
-java MainMenu.java
-#put commands here to compile and run your app from command line
+mkdir -p out
+javac src/main/*.java -d out
+java -cp out main.MainMenu

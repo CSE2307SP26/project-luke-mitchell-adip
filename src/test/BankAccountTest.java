@@ -153,11 +153,18 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testOverdraftDisabledByDefault() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(50);
+        try {
+            testAccount.withdraw(100);
     public void testAddZeroIntrest() {
         BankAccount testAccount = new BankAccount();
 
         try {
             testAccount.addIntrest(0.5);
+    
+    @Test
     public void testCollectTooMuchFees() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(100);
@@ -170,6 +177,25 @@ public class BankAccountTest {
         }
     }
 
+    @Test
+    public void testOverdraftWithinLimitSucceeds() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(50);
+        testAccount.setOverdraftEnabled(true);
+        testAccount.setOverdraftLimit(100);
+        testAccount.withdraw(120);
+        assertEquals(-70, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testOverdraftBeyondLimitFails() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(50);
+        testAccount.setOverdraftEnabled(true);
+        testAccount.setOverdraftLimit(100);
+        try {
+            testAccount.withdraw(200);
+    
     @Test
     public void testAddIntrest() {
         BankAccount testAccount = new BankAccount();
@@ -185,7 +211,7 @@ public class BankAccountTest {
         testAccount.addIntrest(45.36346);
         assertEquals(130.82, testAccount.getBalance(), 0.01);
     }
-}
+          
     public void testCollectFees() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(90);
