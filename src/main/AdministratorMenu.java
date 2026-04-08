@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AdministratorMenu {
     
-    private static final int EXIT_SELECTION = 2;
-	private static final int MAX_SELECTION = 2;
+    private static final int EXIT_SELECTION = 3;
+	private static final int MAX_SELECTION = 3;
 
     public AccountList accountList;
     private Scanner keyboardInput;
@@ -20,7 +20,8 @@ public class AdministratorMenu {
         System.out.println("You are logged in as administrator");
 
         System.out.println("1. Add intrest to an account");
-        System.out.println("2. Log out as administrator");
+        System.out.println("2. Collect fees from an account");
+        System.out.println("3. Log out as administrator");
     }
 
     public int getUserSelection(int max) {
@@ -36,6 +37,9 @@ public class AdministratorMenu {
         switch (selection) {
             case 1:
                 performAddIntrest();
+                break;
+            case 2:
+                performCollectFees();
                 break;
         }
     }

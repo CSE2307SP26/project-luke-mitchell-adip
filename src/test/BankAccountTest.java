@@ -158,6 +158,12 @@ public class BankAccountTest {
 
         try {
             testAccount.addIntrest(0.5);
+    public void testCollectTooMuchFees() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+
+        try {
+            testAccount.collectFees(200.0);
             fail();
         } catch (IllegalArgumentException e) {
             // test passes
@@ -178,5 +184,25 @@ public class BankAccountTest {
         testAccount.deposit(90);
         testAccount.addIntrest(45.36346);
         assertEquals(130.82, testAccount.getBalance(), 0.01);
+    }
+}
+    public void testCollectFees() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.collectFees(40.0);
+        assertEquals(50.0, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testCollectFeesNegative() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+
+        try {
+            testAccount.collectFees(-10.0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
     }
 }
