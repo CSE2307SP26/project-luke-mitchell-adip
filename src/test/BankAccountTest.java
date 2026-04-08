@@ -105,8 +105,10 @@ public class BankAccountTest {
     @Test
     public void testTransactionHistoryWithdrawl() {
         BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
         testAccount.withdraw(100);
         List<String> testTransactionHistory = new ArrayList<>();
+        testTransactionHistory.add("Deposited 100");
         testTransactionHistory.add("Withdrew 100");
         assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
     }
@@ -158,12 +160,23 @@ public class BankAccountTest {
         testAccount.deposit(50);
         try {
             testAccount.withdraw(100);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
     public void testAddZeroIntrest() {
         BankAccount testAccount = new BankAccount();
-
         try {
-            testAccount.addIntrest(0.5);
-    
+            testAccount.addIntrest(0.0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
     @Test
     public void testCollectTooMuchFees() {
         BankAccount testAccount = new BankAccount();
@@ -195,7 +208,12 @@ public class BankAccountTest {
         testAccount.setOverdraftLimit(100);
         try {
             testAccount.withdraw(200);
-    
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
     @Test
     public void testAddIntrest() {
         BankAccount testAccount = new BankAccount();
@@ -209,9 +227,9 @@ public class BankAccountTest {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(90);
         testAccount.addIntrest(45.36346);
-        assertEquals(130.82, testAccount.getBalance(), 0.01);
+        assertEquals(130.83, testAccount.getBalance(), 0.01);
     }
-          
+    @Test
     public void testCollectFees() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(90);

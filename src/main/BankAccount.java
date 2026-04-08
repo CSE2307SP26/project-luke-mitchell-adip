@@ -17,10 +17,17 @@ public class BankAccount {
         this.overdraftLimit = 0.0;
     }
 
+    private String formatAmount(double amount) {
+        if (amount == Math.floor(amount)) {
+            return String.valueOf((int) amount);
+        }
+        return String.valueOf(amount);
+    }
+
     public void deposit(double amount) {
         if(amount > 0) {
             this.balance += amount;
-            transactionHistory.add("Deposited " + String.valueOf(amount));
+            transactionHistory.add("Deposited " + formatAmount(amount));
         } else {
             throw new IllegalArgumentException();
         }
@@ -32,10 +39,10 @@ public class BankAccount {
         }
         if (amount <= this.balance) {
             this.balance -= amount;
-            transactionHistory.add("Withdrew " + String.valueOf(amount));
+            transactionHistory.add("Withdrew " + formatAmount(amount));
         } else if (overdraftEnabled && amount <= this.balance + overdraftLimit) {
             this.balance -= amount;
-            transactionHistory.add("Overdraft: Withdrew " + String.valueOf(amount));
+            transactionHistory.add("Overdraft: Withdrew " + formatAmount(amount));
         } else {
             throw new IllegalArgumentException();
         }
@@ -92,9 +99,20 @@ public class BankAccount {
         return this.overdraftLimit;
     }
 
+    public void collectFees(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (amount > this.balance) {
+            throw new IllegalArgumentException();
+        }
+        this.balance -= amount;
+        transactionHistory.add("Collected fee of " + formatAmount(amount));
+    }
+
     public void addIntrest(Double intrestPercentage){
         if(intrestPercentage > 0 && this.balance > 0) {
-            this.balance = Math.round(this.balance * ((intrestPercentage / 100) + 1) * 100) / 100;
+            this.balance = Math.round(this.balance * ((intrestPercentage / 100) + 1) * 100) / 100.0;
             transactionHistory.add("Added " + String.valueOf(intrestPercentage) + " of intrest");
         } else {
             throw new IllegalArgumentException();
