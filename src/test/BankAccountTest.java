@@ -151,4 +151,40 @@ public class BankAccountTest {
         List<String> testTransactionHistory = new ArrayList<>();
         assertEquals(testTransactionHistory, testAccount.getTransactionHistory());
     }
+
+    @Test
+    public void testOverdraftDisabledByDefault() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(50);
+        try {
+            testAccount.withdraw(100);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
+    public void testOverdraftWithinLimitSucceeds() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(50);
+        testAccount.setOverdraftEnabled(true);
+        testAccount.setOverdraftLimit(100);
+        testAccount.withdraw(120);
+        assertEquals(-70, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testOverdraftBeyondLimitFails() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(50);
+        testAccount.setOverdraftEnabled(true);
+        testAccount.setOverdraftLimit(100);
+        try {
+            testAccount.withdraw(200);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
 }
