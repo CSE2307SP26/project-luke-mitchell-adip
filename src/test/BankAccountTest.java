@@ -158,6 +158,19 @@ public class BankAccountTest {
         testAccount.deposit(50);
         try {
             testAccount.withdraw(100);
+    public void testAddZeroIntrest() {
+        BankAccount testAccount = new BankAccount();
+
+        try {
+            testAccount.addIntrest(0.5);
+    
+    @Test
+    public void testCollectTooMuchFees() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+
+        try {
+            testAccount.collectFees(200.0);
             fail();
         } catch (IllegalArgumentException e) {
             // test passes
@@ -182,6 +195,37 @@ public class BankAccountTest {
         testAccount.setOverdraftLimit(100);
         try {
             testAccount.withdraw(200);
+    
+    @Test
+    public void testAddIntrest() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.addIntrest(40.0);
+        assertEquals(126.0, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testAddIntrestRounding() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.addIntrest(45.36346);
+        assertEquals(130.82, testAccount.getBalance(), 0.01);
+    }
+          
+    public void testCollectFees() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+        testAccount.collectFees(40.0);
+        assertEquals(50.0, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testCollectFeesNegative() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(90);
+
+        try {
+            testAccount.collectFees(-10.0);
             fail();
         } catch (IllegalArgumentException e) {
             // test passes

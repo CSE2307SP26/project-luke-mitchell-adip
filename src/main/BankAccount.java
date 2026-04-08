@@ -92,4 +92,14 @@ public class BankAccount {
         return this.overdraftLimit;
     }
 
+    public void addIntrest(Double intrestPercentage){
+        if(intrestPercentage > 0 && this.balance > 0) {
+            this.balance = Math.round(this.balance * ((intrestPercentage / 100) + 1) * 100) / 100;
+            transactionHistory.add("Added " + String.valueOf(intrestPercentage) + " of intrest");
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    
 }
