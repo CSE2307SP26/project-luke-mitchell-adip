@@ -229,6 +229,7 @@ public class BankAccountTest {
         testAccount.addIntrest(45.36346);
         assertEquals(130.83, testAccount.getBalance(), 0.01);
     }
+
     @Test
     public void testCollectFees() {
         BankAccount testAccount = new BankAccount();
@@ -244,6 +245,31 @@ public class BankAccountTest {
 
         try {
             testAccount.collectFees(-10.0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
+    public void testLowBalanceAlertDisabledByDefault() {
+        BankAccount testAccount = new BankAccount();
+        assertEquals(false, testAccount.isLowBalanceAlertEnabled());
+    }
+
+    @Test
+    public void testLowBalanceAlertEnabledFlag() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.setLowBalanceAlertEnabled(true);
+        testAccount.setLowBalanceThreshold(50);
+        assertEquals(true, testAccount.isLowBalanceAlertEnabled());
+    }
+
+    @Test
+    public void testLowBalanceThresholdNegativeThrows() {
+        BankAccount testAccount = new BankAccount();
+        try {
+            testAccount.setLowBalanceThreshold(-10);
             fail();
         } catch (IllegalArgumentException e) {
             // test passes
@@ -274,6 +300,16 @@ public class BankAccountTest {
         } catch (IllegalArgumentException e) {
             // test passes
         }
+    }
+
+    @Test
+    public void testLowBalanceWithdrawSucceeds() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+        testAccount.setLowBalanceAlertEnabled(true);
+        testAccount.setLowBalanceThreshold(50);
+        testAccount.withdraw(60);
+        assertEquals(40, testAccount.getBalance(), 0.01);
     }
 
     @Test

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    private static final int EXIT_SELECTION = 8;
-	private static final int MAX_SELECTION = 8;
+    private static final int EXIT_SELECTION = 9;
+	private static final int MAX_SELECTION = 9;
 
 	private BankAccount userAccount;
     private Scanner keyboardInput;
@@ -25,8 +25,9 @@ public class AccountMenu {
         System.out.println("4. Get transaction history");
         System.out.println("5. Manage overdraft protection");
         System.out.println("6. Login as administrator");
-        System.out.println("7. Rename account");
-        System.out.println("8. Exit the account menu");
+        System.out.println("7. Manage low balance alert");
+        System.out.println("8. Rename account");
+        System.out.println("9. Exit the account menu");
     }
 
     public int getUserSelection(int max) {
@@ -56,6 +57,9 @@ public class AccountMenu {
                 performOverdraftManagement();
                 break;
             case 7:
+                performLowBalanceAlertManagement();
+                break;
+            case 8:
                 performRename();
                 break;
         }
@@ -115,6 +119,31 @@ public class AccountMenu {
         } else if (choice == 2) {
             userAccount.setOverdraftEnabled(false);
             System.out.println("Overdraft protection disabled.");
+        }
+    }
+
+    public void performLowBalanceAlertManagement() {
+        String status = userAccount.isLowBalanceAlertEnabled()
+            ? "ENABLED (threshold: $" + userAccount.getLowBalanceThreshold() + ")"
+            : "DISABLED";
+        System.out.println("Low balance alert is currently: " + status);
+        System.out.println("1. Enable low balance alert");
+        System.out.println("2. Disable low balance alert");
+        System.out.println("3. Back");
+        int choice = getUserSelection(3);
+        if (choice == 1) {
+            System.out.print("Enter low balance threshold: ");
+            double threshold = keyboardInput.nextDouble();
+            if (threshold < 0) {
+                System.out.println("Invalid threshold.");
+                return;
+            }
+            userAccount.setLowBalanceThreshold(threshold);
+            userAccount.setLowBalanceAlertEnabled(true);
+            System.out.println("Low balance alert enabled at: $" + threshold);
+        } else if (choice == 2) {
+            userAccount.setLowBalanceAlertEnabled(false);
+            System.out.println("Low balance alert disabled.");
         }
     }
 

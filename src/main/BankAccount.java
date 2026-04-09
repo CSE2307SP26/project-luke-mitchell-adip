@@ -8,12 +8,16 @@ public class BankAccount {
     private double balance;
     private boolean overdraftEnabled;
     private double overdraftLimit;
+    private boolean lowBalanceAlertEnabled;
+    private double lowBalanceThreshold;
     private String accountType;
     public List<String> transactionHistory = new ArrayList<>();
     String name;
 
     public BankAccount() {
         this.balance = 0;
+        this.lowBalanceAlertEnabled = false;
+        this.lowBalanceThreshold = 0.0;
         this.overdraftEnabled = false;
         this.overdraftLimit = 0.0;
         this.accountType = "Checking";
@@ -47,6 +51,9 @@ public class BankAccount {
             transactionHistory.add("Overdraft: Withdrew " + formatAmount(amount));
         } else {
             throw new IllegalArgumentException();
+        }
+        if (lowBalanceAlertEnabled && this.balance < lowBalanceThreshold) {
+            System.out.println("Warning: Low balance! Current balance: $" + this.balance);
         }
     }
 
@@ -136,4 +143,23 @@ public class BankAccount {
     }
 
     
+    public void setLowBalanceAlertEnabled(boolean enabled) {
+        this.lowBalanceAlertEnabled = enabled;
+    }
+
+    public boolean isLowBalanceAlertEnabled() {
+        return this.lowBalanceAlertEnabled;
+    }
+
+    public void setLowBalanceThreshold(double threshold) {
+        if (threshold < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.lowBalanceThreshold = threshold;
+    }
+
+    public double getLowBalanceThreshold() {
+        return this.lowBalanceThreshold;
+    }
+
 }
