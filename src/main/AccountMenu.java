@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    private static final int EXIT_SELECTION = 8;
-	private static final int MAX_SELECTION = 8;
+    private static final int EXIT_SELECTION = 9;
+	private static final int MAX_SELECTION = 9;
 
 	private BankAccount userAccount;
     private Scanner keyboardInput;
@@ -17,7 +17,7 @@ public class AccountMenu {
 
     public void displayOptions() {
         System.out.println("");
-        System.out.println("Welcome to the account menu for account: " + userAccount.getName());
+        System.out.println("Welcome to the account menu for account: " + userAccount.getName() + " (" + userAccount.getAccountType() + ")");
         
         System.out.println("1. Make a deposit");
         System.out.println("2. Make a withdrawal");
@@ -26,7 +26,8 @@ public class AccountMenu {
         System.out.println("5. Manage overdraft protection");
         System.out.println("6. Login as administrator");
         System.out.println("7. Manage low balance alert");
-        System.out.println("8. Exit the account menu");
+        System.out.println("8. Rename account");
+        System.out.println("9. Exit the account menu");
     }
 
     public int getUserSelection(int max) {
@@ -57,6 +58,9 @@ public class AccountMenu {
                 break;
             case 7:
                 performLowBalanceAlertManagement();
+                break;
+            case 8:
+                performRename();
                 break;
         }
     }
@@ -140,6 +144,18 @@ public class AccountMenu {
         } else if (choice == 2) {
             userAccount.setLowBalanceAlertEnabled(false);
             System.out.println("Low balance alert disabled.");
+        }
+    }
+
+    public void performRename() {
+        keyboardInput.nextLine(); // consume leftover newline
+        System.out.print("Enter new account name: ");
+        String newName = keyboardInput.nextLine().trim();
+        try {
+            userAccount.setName(newName);
+            System.out.println("Account renamed successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Account name cannot be empty.");
         }
     }
 

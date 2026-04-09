@@ -10,6 +10,7 @@ public class BankAccount {
     private double overdraftLimit;
     private boolean lowBalanceAlertEnabled;
     private double lowBalanceThreshold;
+    private String accountType;
     public List<String> transactionHistory = new ArrayList<>();
     String name;
 
@@ -19,6 +20,7 @@ public class BankAccount {
         this.lowBalanceThreshold = 0.0;
         this.overdraftEnabled = false;
         this.overdraftLimit = 0.0;
+        this.accountType = "Checking";
     }
 
     private String formatAmount(double amount) {
@@ -83,7 +85,21 @@ public class BankAccount {
         return this.name;
     }
 
+    public String getAccountType() {
+        return this.accountType;
+    }
+
+    public void setAccountType(String type) {
+        if (!type.equals("Savings") && !type.equals("Checking")) {
+            throw new IllegalArgumentException();
+        }
+        this.accountType = type;
+    }
+
     public void setName(String newName){
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         this.name = newName;
     }
 

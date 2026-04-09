@@ -277,6 +277,32 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testRenameAccount() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.setName("Old Name");
+        testAccount.setName("New Name");
+        assertEquals("New Name", testAccount.getName());
+    }
+
+    @Test
+    public void testSetAccountTypeSavings() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.setAccountType("Savings");
+        assertEquals("Savings", testAccount.getAccountType());
+    }
+
+    @Test
+    public void testSetAccountTypeInvalid() {
+        BankAccount testAccount = new BankAccount();
+        try {
+            testAccount.setAccountType("Investment");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
     public void testLowBalanceWithdrawSucceeds() {
         BankAccount testAccount = new BankAccount();
         testAccount.deposit(100);
@@ -284,5 +310,17 @@ public class BankAccountTest {
         testAccount.setLowBalanceThreshold(50);
         testAccount.withdraw(60);
         assertEquals(40, testAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testRenameAccountEmpty() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.setName("My Account");
+        try {
+            testAccount.setName("");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
     }
 }
