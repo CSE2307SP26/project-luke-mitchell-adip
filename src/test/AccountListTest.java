@@ -67,7 +67,7 @@ public class AccountListTest {
         AccountList testAccountList = new AccountList();
         testAccountList.addAccount(testAccount1);
         testAccountList.addAccount(testAccount2);
-        testAccountList.getAccount(0);
-        assertEquals(testAccount1, testAccountList.getAccountList());
+        BankAccount result = testAccountList.getAccount(0);
+        assertEquals(testAccount1, result);
     }
 }

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 5;
-	private static final int MAX_SELECTION = 5;
+    private static final int EXIT_SELECTION = 6;
+	private static final int MAX_SELECTION = 6;
 
 	public AccountList accountList;
     private Scanner keyboardInput;
@@ -23,7 +23,8 @@ public class MainMenu {
         System.out.println("2. Create an account");
         System.out.println("3. Close an account");
         System.out.println("4. Transfer funds");
-        System.out.println("5. Exit the app");
+        System.out.println("5. Login as administrator");
+        System.out.println("6. Exit the app");
 
     }
 
@@ -49,6 +50,9 @@ public class MainMenu {
                 break;
             case 4:
                 performTransfer();
+                break;
+            case 5:
+                performAdministratorLogin();
                 break;
         }
     }
@@ -105,11 +109,26 @@ public class MainMenu {
         }
     }
 
+    public String selectAccountType() {
+        System.out.println("Select account type:");
+        System.out.println("1. Checking");
+        System.out.println("2. Savings");
+        int selection = getUserSelection(2);
+        return selection == 1 ? "Checking" : "Savings";
+    }
+
     public void performAccountCreation(){
         String newName = nameNewAccount();
+        String accountType = selectAccountType();
         BankAccount newAccount = new BankAccount();
         newAccount.setName(newName);
+        newAccount.setAccountType(accountType);
         accountList.addAccount(newAccount);
+    }
+
+    public void performAdministratorLogin(){
+        AdministratorMenu administratorMenu = new AdministratorMenu(accountList);
+        administratorMenu.run();
     }
 
     public void run() {
