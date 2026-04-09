@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    private static final int EXIT_SELECTION = 6;
-	private static final int MAX_SELECTION = 6;
+    private static final int EXIT_SELECTION = 8;
+	private static final int MAX_SELECTION = 8;
 
 	private BankAccount userAccount;
     private Scanner keyboardInput;
@@ -23,8 +23,10 @@ public class AccountMenu {
         System.out.println("2. Make a withdrawal");
         System.out.println("3. Check balance");
         System.out.println("4. Get transaction history");
-        System.out.println("5. Manage low balance alert");
-        System.out.println("6. Exit the account menu");
+        System.out.println("5. Manage overdraft protection");
+        System.out.println("6. Login as administrator");
+        System.out.println("7. Manage low balance alert");
+        System.out.println("8. Exit the account menu");
     }
 
     public int getUserSelection(int max) {
@@ -51,6 +53,9 @@ public class AccountMenu {
                 performTransactionHistory();
                 break;
             case 5:
+                performOverdraftManagement();
+                break;
+            case 7:
                 performLowBalanceAlertManagement();
                 break;
         }
@@ -86,6 +91,31 @@ public class AccountMenu {
     
     public void displayBalance() {
     System.out.println("Current balance: " + userAccount.getBalance());
+    }
+
+    public void performOverdraftManagement() {
+        String status = userAccount.isOverdraftEnabled()
+            ? "ENABLED (limit: $" + userAccount.getOverdraftLimit() + ")"
+            : "DISABLED";
+        System.out.println("Overdraft protection is currently: " + status);
+        System.out.println("1. Enable overdraft protection");
+        System.out.println("2. Disable overdraft protection");
+        System.out.println("3. Back");
+        int choice = getUserSelection(3);
+        if (choice == 1) {
+            System.out.print("Enter overdraft limit amount: ");
+            double limit = keyboardInput.nextDouble();
+            if (limit < 0) {
+                System.out.println("Invalid limit.");
+                return;
+            }
+            userAccount.setOverdraftLimit(limit);
+            userAccount.setOverdraftEnabled(true);
+            System.out.println("Overdraft protection enabled with limit: $" + limit);
+        } else if (choice == 2) {
+            userAccount.setOverdraftEnabled(false);
+            System.out.println("Overdraft protection disabled.");
+        }
     }
 
     public void performLowBalanceAlertManagement() {
