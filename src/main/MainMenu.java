@@ -109,10 +109,20 @@ public class MainMenu {
         }
     }
 
+    public String selectAccountType() {
+        System.out.println("Select account type:");
+        System.out.println("1. Checking");
+        System.out.println("2. Savings");
+        int selection = getUserSelection(2);
+        return selection == 1 ? "Checking" : "Savings";
+    }
+
     public void performAccountCreation(){
         String newName = nameNewAccount();
+        String accountType = selectAccountType();
         BankAccount newAccount = new BankAccount();
         newAccount.setName(newName);
+        newAccount.setAccountType(accountType);
         accountList.addAccount(newAccount);
     }
 

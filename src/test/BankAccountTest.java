@@ -259,6 +259,24 @@ public class BankAccountTest {
     }
 
     @Test
+    public void testSetAccountTypeSavings() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.setAccountType("Savings");
+        assertEquals("Savings", testAccount.getAccountType());
+    }
+
+    @Test
+    public void testSetAccountTypeInvalid() {
+        BankAccount testAccount = new BankAccount();
+        try {
+            testAccount.setAccountType("Investment");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
+
+    @Test
     public void testRenameAccountEmpty() {
         BankAccount testAccount = new BankAccount();
         testAccount.setName("My Account");

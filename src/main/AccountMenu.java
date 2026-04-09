@@ -17,7 +17,7 @@ public class AccountMenu {
 
     public void displayOptions() {
         System.out.println("");
-        System.out.println("Welcome to the account menu for account: " + userAccount.getName());
+        System.out.println("Welcome to the account menu for account: " + userAccount.getName() + " (" + userAccount.getAccountType() + ")");
         
         System.out.println("1. Make a deposit");
         System.out.println("2. Make a withdrawal");
