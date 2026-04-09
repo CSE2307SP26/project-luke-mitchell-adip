@@ -77,6 +77,9 @@ public class BankAccount {
     }
 
     public void setName(String newName){
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         this.name = newName;
     }
 

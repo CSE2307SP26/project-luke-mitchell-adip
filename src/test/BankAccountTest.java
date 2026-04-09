@@ -249,4 +249,24 @@ public class BankAccountTest {
             // test passes
         }
     }
+
+    @Test
+    public void testRenameAccount() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.setName("Old Name");
+        testAccount.setName("New Name");
+        assertEquals("New Name", testAccount.getName());
+    }
+
+    @Test
+    public void testRenameAccountEmpty() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.setName("My Account");
+        try {
+            testAccount.setName("");
+            fail();
+        } catch (IllegalArgumentException e) {
+            // test passes
+        }
+    }
 }
