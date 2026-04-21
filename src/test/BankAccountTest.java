@@ -323,4 +323,43 @@ public class BankAccountTest {
             // test passes
         }
     }
+
+    @Test
+    public void testFreezePreventsWithdraw() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+        testAccount.freezeAccount();
+        try {
+            testAccount.withdraw(10);
+            fail();
+        } catch (IllegalStateException e) {
+            // test passes
+        }
+    }
+
+    @Test
+    public void testFreezePreventsTransfer() {
+        BankAccount source = new BankAccount();
+        BankAccount destination = new BankAccount();
+        source.deposit(100);
+        source.freezeAccount();
+        try {
+            source.transfer(destination, 25);
+            fail();
+        } catch (IllegalStateException e) {
+            // test passes
+        }
+        assertEquals(100, source.getBalance(), 0.01);
+        assertEquals(0, destination.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testUnfreezeRestoresTransactions() {
+        BankAccount testAccount = new BankAccount();
+        testAccount.deposit(100);
+        testAccount.freezeAccount();
+        testAccount.unfreezeAccount();
+        testAccount.withdraw(25);
+        assertEquals(75, testAccount.getBalance(), 0.01);
+    }
 }

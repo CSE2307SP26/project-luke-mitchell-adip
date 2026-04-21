@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    private static final int EXIT_SELECTION = 9;
-	private static final int MAX_SELECTION = 9;
+    private static final int EXIT_SELECTION = 12;
+	private static final int MAX_SELECTION = 12;
 
 	private BankAccount userAccount;
     private Scanner keyboardInput;
@@ -27,7 +27,10 @@ public class AccountMenu {
         System.out.println("6. Login as administrator");
         System.out.println("7. Manage low balance alert");
         System.out.println("8. Rename account");
-        System.out.println("9. Exit the account menu");
+        System.out.println("9. Freeze account");
+        System.out.println("10. Unfreeze account");
+        System.out.println("11. View freeze status");
+        System.out.println("12. Exit the account menu");
     }
 
     public int getUserSelection(int max) {
@@ -62,6 +65,15 @@ public class AccountMenu {
             case 8:
                 performRename();
                 break;
+            case 9:
+                performFreezeAccount();
+                break;
+            case 10:
+                performUnfreezeAccount();
+                break;
+            case 11:
+                displayFreezeStatus();
+                break;
         }
     }
 
@@ -71,7 +83,11 @@ public class AccountMenu {
             System.out.print("How much would you like to deposit: ");
             depositAmount = keyboardInput.nextInt();
         }
-        userAccount.deposit(depositAmount);
+        try {
+            userAccount.deposit(depositAmount);
+        } catch (IllegalStateException e) {
+            System.out.println("Account is frozen. Transaction not allowed.");
+        }
     }
 
     public void performWithdraw() {
@@ -83,6 +99,8 @@ public class AccountMenu {
 
         try {
             userAccount.withdraw(withdrawAmount);
+        } catch (IllegalStateException e) {
+            System.out.println("Account is frozen. Transaction not allowed.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid withdrawal amount or insufficient funds.");
         }
@@ -157,6 +175,29 @@ public class AccountMenu {
         } catch (IllegalArgumentException e) {
             System.out.println("Account name cannot be empty.");
         }
+    }
+
+    public void performFreezeAccount() {
+        if (userAccount.isFrozen()) {
+            System.out.println("Account is already frozen.");
+            return;
+        }
+        userAccount.freezeAccount();
+        System.out.println("Account has been frozen.");
+    }
+
+    public void performUnfreezeAccount() {
+        if (!userAccount.isFrozen()) {
+            System.out.println("Account is already active.");
+            return;
+        }
+        userAccount.unfreezeAccount();
+        System.out.println("Account has been unfrozen.");
+    }
+
+    public void displayFreezeStatus() {
+        String status = userAccount.isFrozen() ? "FROZEN" : "ACTIVE";
+        System.out.println("Account freeze status: " + status);
     }
 
     public void run() {
