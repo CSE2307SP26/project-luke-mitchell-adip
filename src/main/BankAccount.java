@@ -6,6 +6,7 @@ import java.util.List;
 public class BankAccount {
 
     private double balance;
+    private boolean frozen;
     private boolean overdraftEnabled;
     private double overdraftLimit;
     private boolean lowBalanceAlertEnabled;
@@ -16,6 +17,7 @@ public class BankAccount {
 
     public BankAccount() {
         this.balance = 0;
+        this.frozen = false;
         this.lowBalanceAlertEnabled = false;
         this.lowBalanceThreshold = 0.0;
         this.overdraftEnabled = false;
@@ -31,6 +33,9 @@ public class BankAccount {
     }
 
     public void deposit(double amount) {
+        if (this.frozen) {
+            throw new IllegalStateException();
+        }
         if(amount > 0) {
             this.balance += amount;
             transactionHistory.add("Deposited " + formatAmount(amount));
@@ -40,6 +45,9 @@ public class BankAccount {
     }
 
     public void withdraw(double amount) {
+        if (this.frozen) {
+            throw new IllegalStateException();
+        }
         if (amount <= 0) {
             throw new IllegalArgumentException();
         }
@@ -58,6 +66,9 @@ public class BankAccount {
     }
 
     public void transfer(BankAccount destination, double amount) {
+        if (this.frozen) {
+            throw new IllegalStateException();
+        }
         this.withdraw(amount);
         destination.deposit(amount);
     }
@@ -109,6 +120,20 @@ public class BankAccount {
 
     public boolean isOverdraftEnabled() {
         return this.overdraftEnabled;
+    }
+
+    public void freezeAccount() {
+        this.frozen = true;
+        transactionHistory.add("Account frozen");
+    }
+
+    public void unfreezeAccount() {
+        this.frozen = false;
+        transactionHistory.add("Account unfrozen");
+    }
+
+    public boolean isFrozen() {
+        return this.frozen;
     }
 
     public void setOverdraftLimit(double limit) {
