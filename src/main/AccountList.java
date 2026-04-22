@@ -9,15 +9,12 @@ public class AccountList {
 
     public void printAccountList(){
         int accountListLength = this.accountList.size();
-        if (accountListLength == 0){
-            System.out.println("No accounts to select. Please create account.");
-        }
-        else{
-            int i = 1;
-            for (BankAccount account: this.accountList){
+        if (accountListLength !=0){
+        int i = 1;
+        for (BankAccount account: this.accountList){
             System.out.println(i + ": " + account.getName());
             i++;
-            }
+        }
         }
     }
 

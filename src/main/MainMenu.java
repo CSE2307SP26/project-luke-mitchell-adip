@@ -40,7 +40,7 @@ public class MainMenu {
     public void processInput(int selection) {
         switch (selection) {
             case 1:
-                performAccountSelection();
+                performAccountMenuCreation();
                 break;
             case 2:
                 performAccountCreation();
@@ -57,15 +57,6 @@ public class MainMenu {
         }
     }
 
-    public void performAccountSelection(){
-        accountList.printAccountList();
-        if (accountList.getLength() != 0){
-            int bankNumber = getUserSelection(accountList.getLength());
-            AccountMenu selectedMenu = new AccountMenu(accountList.getAccount(bankNumber - 1));
-            selectedMenu.run();
-        }
-    }
-
     public String nameNewAccount(){
         System.out.print("Please name your new account: ");
         String newName = "";
@@ -75,13 +66,59 @@ public class MainMenu {
         return newName;
     }
 
-    public void performAccountClose(){
+    public String setAccountPin(){
+        System.out.print("Please set a pin for your account: ");
+        String pin = "";
+        while (pin.isEmpty()){
+            pin = keyboardInput.nextLine();
+        }
+        return pin;
+    }
+
+    public String attemptAccountPin(){
+        System.out.print("Please enter the pin for your account: ");
+        String pin = "";
+        while (pin.isEmpty()){
+            pin = keyboardInput.nextLine();
+        }
+        return pin;
+    }
+
+    public int attemptAccountSelection(){
         accountList.printAccountList();
         if (accountList.getLength() != 0){
             int bankNumber = getUserSelection(accountList.getLength());
+            String attemptedPin = attemptAccountPin();
+            if (accountList.getAccount(bankNumber - 1).checkPin(attemptedPin)){
+                return bankNumber;
+            }else{
+                System.out.print("Incorrect pin, please try again. ");
+                return -1;
+            }
+        }else{
+            System.out.print("Please create an account first. ");
+            return -1;
+        }
+    }
+
+     public void performAccountMenuCreation(){
+        int bankNumber = attemptAccountSelection();
+        if (bankNumber != -1){
+            AccountMenu selectedMenu = new AccountMenu(accountList.getAccount(bankNumber - 1));
+            selectedMenu.run();
+        }else{
+            System.out.print("Failed to select account");
+        }   
+    }
+
+    public void performAccountClose(){
+        int bankNumber = attemptAccountSelection();
+        if (bankNumber != -1){
             accountList.removeAccount(bankNumber - 1);
             System.out.println("Account closed.");
-        }
+        }else{
+            System.out.print("Failed to close account");
+        }   
     }
 
     public void performTransfer(){
@@ -90,11 +127,15 @@ public class MainMenu {
             return;
         }
         System.out.println("Select the account to transfer FROM:");
-        accountList.printAccountList();
-        int fromIndex = getUserSelection(accountList.getLength()) - 1;
+        int fromIndex = attemptAccountSelection() - 1;
+        if(fromIndex == -2){
+            return;
+        }
         System.out.println("Select the account to transfer TO:");
-        accountList.printAccountList();
-        int toIndex = getUserSelection(accountList.getLength()) - 1;
+        int toIndex = attemptAccountSelection() - 1;
+        if(toIndex == -2){
+            return;
+        }
         if (fromIndex == toIndex) {
             System.out.println("Cannot transfer to the same account.");
             return;
@@ -119,9 +160,11 @@ public class MainMenu {
 
     public void performAccountCreation(){
         String newName = nameNewAccount();
+        String newPin = setAccountPin();
         String accountType = selectAccountType();
         BankAccount newAccount = new BankAccount();
         newAccount.setName(newName);
+        newAccount.setPin(newPin);
         newAccount.setAccountType(accountType);
         accountList.addAccount(newAccount);
     }
