@@ -12,6 +12,7 @@ public class BankAccount {
     private boolean lowBalanceAlertEnabled;
     private double lowBalanceThreshold;
     private String accountType;
+    private String accountPin;
     public List<String> transactionHistory = new ArrayList<>();
     String name;
 
@@ -98,6 +99,18 @@ public class BankAccount {
 
     public String getAccountType() {
         return this.accountType;
+    }
+
+    public void setPin(String pin){
+        this.accountPin = pin;
+    }
+
+    public boolean checkPin(String inputPin){
+        if (this.accountPin.compareTo(inputPin) == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public void setAccountType(String type) {

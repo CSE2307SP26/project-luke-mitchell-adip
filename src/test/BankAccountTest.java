@@ -362,4 +362,11 @@ public class BankAccountTest {
         testAccount.withdraw(25);
         assertEquals(75, testAccount.getBalance(), 0.01);
     }
+
+    @Test
+    public void testCheckPin(){
+        BankAccount testAccount = new BankAccount();
+        testAccount.setPin("test");
+        assertEquals(true, testAccount.checkPin("test"));
+    }
 }
