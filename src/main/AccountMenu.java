@@ -91,6 +91,7 @@ public class AccountMenu {
     }
 
     public void performWithdraw() {
+        System.out.println("Note: A $0.50 withdrawal fee is added on top of the amount you withdraw.");
         double withdrawAmount = -1;
         while (withdrawAmount < 0) {
             System.out.print("How much would you like to withdraw: ");

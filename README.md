@@ -2,7 +2,7 @@
 
 ## Description
 
-A command-line Java banking application that allows customers to manage bank accounts, including depositing, withdrawing, checking balances, viewing transaction history, creating and closing accounts, transferring funds, and designating account types. Administrators can collect fees, add interest, and customers can enable overdraft protection and receive low balance alerts.
+A command-line Java banking application that allows customers to manage bank accounts, including depositing, withdrawing, checking balances, viewing transaction history, creating and closing accounts, transferring funds, and designating account types. Administrators can collect fees, add interest, and customers can enable overdraft protection and receive low balance alerts. Customers can **freeze** an account to block deposits, withdrawals, and transfers until it is unfrozen. Withdrawals from the account menu include a **$0.50 withdrawal fee** (shown before confirming and recorded in transaction history); **transfers to another account do not charge this fee.**
 
 ## Team Members:
 
@@ -25,6 +25,8 @@ A command-line Java banking application that allows customers to manage bank acc
 11. A bank customer should be able to receive an alert when their balance falls below $20.
 12. A bank customer should be able to rename their bank account.
 13. A bank customer should be able to designate their account as Savings or Checking.
+14. A bank customer should be able to freeze and unfreeze their account to block transactions until unfrozen. (Adip)
+15. A bank customer should pay a $0.50 withdrawal fee on each withdrawal from the account menu (not on transfers), with notice before withdrawing. (Adip)
 
 ## What user stories were completed this iteration?
 
@@ -34,6 +36,8 @@ A command-line Java banking application that allows customers to manage bank acc
 11. A bank customer should be able to receive an alert when their balance falls below $20. (Adip)
 12. A bank customer should be able to rename their bank account. (Mitchell)
 13. A bank customer should be able to designate their account as Savings or Checking. (Mitchell)
+14. A bank customer should be able to freeze and unfreeze their account to block transactions until unfrozen. (Adip)
+15. A bank customer should pay a $0.50 withdrawal fee on each withdrawal from the account menu (not on transfers), with notice before withdrawing. (Adip)
 
 ## What user stories do you intend to complete next iteration?
 
