@@ -36,6 +36,7 @@ A command-line Java banking application that allows customers to manage bank acc
 
 1. A bank customer should be able to freeze and unfreeze their account. (Adip)
 2. A bank customer should have to use a pin in order to open, close, or transfer funds with their account. (Luke)
+3. A bank administrator should be able to print the name, type, and balance for all accounts, as well as the total balance for all accounts combined. (Luke)
 
 ## What user stories do you intend to complete next iteration?
 
