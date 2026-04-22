@@ -25,19 +25,19 @@ A command-line Java banking application that allows customers to manage bank acc
 11. A bank customer should be able to receive an alert when their balance falls below $20.
 12. A bank customer should be able to rename their bank account.
 13. A bank customer should be able to designate their account as Savings or Checking.
-14. A bank customer should be able to freeze and unfreeze their account to block transactions until unfrozen. (Adip)
-15. A bank customer should pay a $0.50 withdrawal fee on each withdrawal from the account menu (not on transfers), with notice before withdrawing. (Adip)
+14. A bank administrator should be able to collect fees from existing accounts when necessary.
+15. A bank administrator should be able to add an interest payment to an existing account when necessary.
+16. A bank customer should be able to enable overdraft protection on their account.
+17. A bank customer should be able to receive an alert when their balance falls below $20.
+18. A bank customer should be able to rename their bank account.
+19. A bank customer should be able to designate their account as Savings or Checking.
 
 ## What user stories were completed this iteration?
 
-8. A bank administrator should be able to collect fees from existing accounts when necessary. (Luke)
-9. A bank administrator should be able to add an interest payment to an existing account when necessary. (Luke)
-10. A bank customer should be able to enable overdraft protection on their account. (Adip)
-11. A bank customer should be able to receive an alert when their balance falls below $20. (Adip)
-12. A bank customer should be able to rename their bank account. (Mitchell)
-13. A bank customer should be able to designate their account as Savings or Checking. (Mitchell)
-14. A bank customer should be able to freeze and unfreeze their account to block transactions until unfrozen. (Adip)
-15. A bank customer should pay a $0.50 withdrawal fee on each withdrawal from the account menu (not on transfers), with notice before withdrawing. (Adip)
+1. A bank customer should have to use a pin in order to open, close, or transfer funds with their account. (Luke)
+2. A bank administrator should be able to print the name, type, and balance for all accounts, as well as the total balance for all accounts combined. (Luke)
+3. A bank customer should be able to freeze and unfreeze their account to block transactions until unfrozen. (Adip)
+4. A bank customer should pay a $0.50 withdrawal fee on each withdrawal from the account menu (not on transfers), with notice before withdrawing. (Adip)
 
 ## What user stories do you intend to complete next iteration?
 
