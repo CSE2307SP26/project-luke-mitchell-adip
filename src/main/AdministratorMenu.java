@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class AdministratorMenu {
     
-    private static final int EXIT_SELECTION = 3;
-	private static final int MAX_SELECTION = 3;
+    private static final int EXIT_SELECTION = 4;
+	private static final int MAX_SELECTION = 4;
 
     public AccountList accountList;
     private Scanner keyboardInput;
@@ -21,7 +21,8 @@ public class AdministratorMenu {
 
         System.out.println("1. Add intrest to an account");
         System.out.println("2. Collect fees from an account");
-        System.out.println("3. Log out as administrator");
+        System.out.println("3. Print balance of all accounts and total balance");
+        System.out.println("4. Log out as administrator");
     }
 
     public int getUserSelection(int max) {
@@ -40,6 +41,9 @@ public class AdministratorMenu {
                 break;
             case 2:
                 performCollectFees();
+                break;
+            case 3:
+                performPrintAccountList();
                 break;
         }
     }
@@ -82,6 +86,17 @@ public class AdministratorMenu {
         } catch (IllegalArgumentException e) {
             System.out.println("Fee collection failed. Amount must be positive and not exceed the account balance.");
         }
+    }
+
+    public void performPrintAccountList(){
+        for (int i = 0; i < accountList.getLength(); i++){
+            String accountName = accountList.getAccount(i).getName();
+            String accountType = accountList.getAccount(i).getAccountType();
+            double accountBalence = accountList.getAccount(i).getBalance();
+            System.out.println("Bank account: " + accountName + " (" + accountType + ") has a balance of " + accountBalence);
+        }
+        double totalBalance = accountList.totalAccountListBalance();
+        System.out.println("Total balance of all accounts is " + totalBalance);
     }
 
      public void run() {

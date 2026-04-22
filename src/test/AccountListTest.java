@@ -70,4 +70,16 @@ public class AccountListTest {
         BankAccount result = testAccountList.getAccount(0);
         assertEquals(testAccount1, result);
     }
+
+    @Test
+    public void testTotalBalance() {
+        BankAccount testAccount1 = new BankAccount();
+        testAccount1.deposit(100);
+        BankAccount testAccount2 = new BankAccount();
+        testAccount2.deposit(133);
+        AccountList testAccountList = new AccountList();
+        testAccountList.addAccount(testAccount1);
+        testAccountList.addAccount(testAccount2);
+        assertEquals(233.0, testAccountList.totalAccountListBalance(), 0.01);
+    }
 }
