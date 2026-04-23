@@ -4,35 +4,40 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    private static final int EXIT_SELECTION = 9;
-	private static final int MAX_SELECTION = 9;
+    private static final int EXIT_SELECTION = 12;
+    private static final int MAX_SELECTION = 12;
 
-	private BankAccount userAccount;
+    private BankAccount userAccount;
+    private AccountList accountList;
     private Scanner keyboardInput;
 
-    public AccountMenu(BankAccount selectedAccount) {
+    public AccountMenu(BankAccount selectedAccount, AccountList list) {
         this.userAccount = selectedAccount;
+        this.accountList = list;
         this.keyboardInput = new Scanner(System.in);
     }
 
     public void displayOptions() {
         System.out.println("");
         System.out.println("Welcome to the account menu for account: " + userAccount.getName() + " (" + userAccount.getAccountType() + ")");
-        
-        System.out.println("1. Make a deposit");
-        System.out.println("2. Make a withdrawal");
-        System.out.println("3. Check balance");
-        System.out.println("4. Get transaction history");
-        System.out.println("5. Manage overdraft protection");
-        System.out.println("6. Login as administrator");
-        System.out.println("7. Manage low balance alert");
-        System.out.println("8. Rename account");
-        System.out.println("9. Exit the account menu");
+
+        System.out.println("1.  Make a deposit");
+        System.out.println("2.  Make a withdrawal");
+        System.out.println("3.  Check balance");
+        System.out.println("4.  Get transaction history");
+        System.out.println("5.  Manage overdraft protection");
+        System.out.println("6.  Login as administrator");
+        System.out.println("7.  Manage low balance alert");
+        System.out.println("8.  Rename account");
+        System.out.println("9.  Freeze account");
+        System.out.println("10. Unfreeze account");
+        System.out.println("11. View freeze status");
+        System.out.println("12. Exit the account menu");
     }
 
     public int getUserSelection(int max) {
         int selection = -1;
-        while(selection < 1 || selection > max) {
+        while (selection < 1 || selection > max) {
             System.out.print("Please make a selection: ");
             selection = keyboardInput.nextInt();
         }
@@ -56,95 +61,76 @@ public class AccountMenu {
             case 5:
                 performOverdraftManagement();
                 break;
+            case 6:
+                performAdministratorLogin();
+                break;
             case 7:
                 performLowBalanceAlertManagement();
                 break;
             case 8:
                 performRename();
                 break;
+            case 9:
+                performFreezeAccount();
+                break;
+            case 10:
+                performUnfreezeAccount();
+                break;
+            case 11:
+                displayFreezeStatus();
+                break;
         }
     }
 
     public void performDeposit() {
         double depositAmount = -1;
-        while(depositAmount < 0) {
+        while (depositAmount < 0) {
             System.out.print("How much would you like to deposit: ");
             depositAmount = keyboardInput.nextInt();
         }
-        userAccount.deposit(depositAmount);
+        try {
+            userAccount.deposit(depositAmount);
+        } catch (IllegalStateException e) {
+            System.out.println("Account is frozen. Transaction not allowed.");
+        }
     }
 
     public void performWithdraw() {
+        System.out.println("Note: A $0.50 withdrawal fee is added on top of the amount you withdraw.");
         double withdrawAmount = -1;
         while (withdrawAmount < 0) {
             System.out.print("How much would you like to withdraw: ");
             withdrawAmount = keyboardInput.nextInt();
         }
-
         try {
             userAccount.withdraw(withdrawAmount);
+        } catch (IllegalStateException e) {
+            System.out.println("Account is frozen. Transaction not allowed.");
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid withdrawal amount or insufficient funds.");
         }
     }
 
-    public void performTransactionHistory(){
+    public void performTransactionHistory() {
         System.out.println("Transaction History:");
         userAccount.printHistory();
     }
-    
+
     public void displayBalance() {
-    System.out.println("Current balance: " + userAccount.getBalance());
+        System.out.println("Current balance: " + userAccount.getBalance());
     }
 
     public void performOverdraftManagement() {
-        String status = userAccount.isOverdraftEnabled()
-            ? "ENABLED (limit: $" + userAccount.getOverdraftLimit() + ")"
-            : "DISABLED";
-        System.out.println("Overdraft protection is currently: " + status);
-        System.out.println("1. Enable overdraft protection");
-        System.out.println("2. Disable overdraft protection");
-        System.out.println("3. Back");
-        int choice = getUserSelection(3);
-        if (choice == 1) {
-            System.out.print("Enter overdraft limit amount: ");
-            double limit = keyboardInput.nextDouble();
-            if (limit < 0) {
-                System.out.println("Invalid limit.");
-                return;
-            }
-            userAccount.setOverdraftLimit(limit);
-            userAccount.setOverdraftEnabled(true);
-            System.out.println("Overdraft protection enabled with limit: $" + limit);
-        } else if (choice == 2) {
-            userAccount.setOverdraftEnabled(false);
-            System.out.println("Overdraft protection disabled.");
-        }
+        new OverdraftMenu(userAccount, keyboardInput).run();
+    }
+
+    public void performAdministratorLogin() {
+        AdministratorMenu administratorMenu = new AdministratorMenu(accountList);
+        administratorMenu.run();
     }
 
     public void performLowBalanceAlertManagement() {
-        String status = userAccount.isLowBalanceAlertEnabled()
-            ? "ENABLED (threshold: $" + userAccount.getLowBalanceThreshold() + ")"
-            : "DISABLED";
-        System.out.println("Low balance alert is currently: " + status);
-        System.out.println("1. Enable low balance alert");
-        System.out.println("2. Disable low balance alert");
-        System.out.println("3. Back");
-        int choice = getUserSelection(3);
-        if (choice == 1) {
-            System.out.print("Enter low balance threshold: ");
-            double threshold = keyboardInput.nextDouble();
-            if (threshold < 0) {
-                System.out.println("Invalid threshold.");
-                return;
-            }
-            userAccount.setLowBalanceThreshold(threshold);
-            userAccount.setLowBalanceAlertEnabled(true);
-            System.out.println("Low balance alert enabled at: $" + threshold);
-        } else if (choice == 2) {
-            userAccount.setLowBalanceAlertEnabled(false);
-            System.out.println("Low balance alert disabled.");
-        }
+        new LowBalanceAlertMenu(userAccount, keyboardInput).run();
     }
 
     public void performRename() {
@@ -159,14 +145,35 @@ public class AccountMenu {
         }
     }
 
+    public void performFreezeAccount() {
+        if (userAccount.isFrozen()) {
+            System.out.println("Account is already frozen.");
+            return;
+        }
+        userAccount.freezeAccount();
+        System.out.println("Account has been frozen.");
+    }
+
+    public void performUnfreezeAccount() {
+        if (!userAccount.isFrozen()) {
+            System.out.println("Account is already active.");
+            return;
+        }
+        userAccount.unfreezeAccount();
+        System.out.println("Account has been unfrozen.");
+    }
+
+    public void displayFreezeStatus() {
+        String status = userAccount.isFrozen() ? "FROZEN" : "ACTIVE";
+        System.out.println("Account freeze status: " + status);
+    }
+
     public void run() {
         int selection = -1;
-        while(selection != EXIT_SELECTION) {
+        while (selection != EXIT_SELECTION) {
             displayOptions();
             selection = getUserSelection(MAX_SELECTION);
             processInput(selection);
         }
     }
-
-    
 }

@@ -5,17 +5,22 @@ import java.util.List;
 
 public class BankAccount {
 
+    private static final double WITHDRAWAL_FEE = 0.5;
+
     private double balance;
+    private boolean frozen;
     private boolean overdraftEnabled;
     private double overdraftLimit;
     private boolean lowBalanceAlertEnabled;
     private double lowBalanceThreshold;
     private String accountType;
+    private String accountPin;
     public List<String> transactionHistory = new ArrayList<>();
     String name;
 
     public BankAccount() {
         this.balance = 0;
+        this.frozen = false;
         this.lowBalanceAlertEnabled = false;
         this.lowBalanceThreshold = 0.0;
         this.overdraftEnabled = false;
@@ -31,6 +36,9 @@ public class BankAccount {
     }
 
     public void deposit(double amount) {
+        if (this.frozen) {
+            throw new IllegalStateException();
+        }
         if(amount > 0) {
             this.balance += amount;
             transactionHistory.add("Deposited " + formatAmount(amount));
@@ -40,15 +48,30 @@ public class BankAccount {
     }
 
     public void withdraw(double amount) {
+        withdrawInternal(amount, true);
+    }
+
+    private void withdrawInternal(double amount, boolean applyWithdrawalFee) {
+        if (this.frozen) {
+            throw new IllegalStateException();
+        }
         if (amount <= 0) {
             throw new IllegalArgumentException();
         }
-        if (amount <= this.balance) {
-            this.balance -= amount;
+        double fee = applyWithdrawalFee ? WITHDRAWAL_FEE : 0;
+        double totalDebit = amount + fee;
+        if (totalDebit <= this.balance) {
+            this.balance -= totalDebit;
             transactionHistory.add("Withdrew " + formatAmount(amount));
-        } else if (overdraftEnabled && amount <= this.balance + overdraftLimit) {
-            this.balance -= amount;
+            if (applyWithdrawalFee) {
+                transactionHistory.add("Withdrawal fee " + formatAmount(WITHDRAWAL_FEE));
+            }
+        } else if (overdraftEnabled && totalDebit <= this.balance + overdraftLimit) {
+            this.balance -= totalDebit;
             transactionHistory.add("Overdraft: Withdrew " + formatAmount(amount));
+            if (applyWithdrawalFee) {
+                transactionHistory.add("Withdrawal fee " + formatAmount(WITHDRAWAL_FEE));
+            }
         } else {
             throw new IllegalArgumentException();
         }
@@ -58,7 +81,10 @@ public class BankAccount {
     }
 
     public void transfer(BankAccount destination, double amount) {
-        this.withdraw(amount);
+        if (this.frozen) {
+            throw new IllegalStateException();
+        }
+        withdrawInternal(amount, false);
         destination.deposit(amount);
     }
 
@@ -89,6 +115,18 @@ public class BankAccount {
         return this.accountType;
     }
 
+    public void setPin(String pin){
+        this.accountPin = pin;
+    }
+
+    public boolean checkPin(String inputPin){
+        if (this.accountPin.compareTo(inputPin) == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public void setAccountType(String type) {
         if (!type.equals("Savings") && !type.equals("Checking")) {
             throw new IllegalArgumentException();
@@ -109,6 +147,20 @@ public class BankAccount {
 
     public boolean isOverdraftEnabled() {
         return this.overdraftEnabled;
+    }
+
+    public void freezeAccount() {
+        this.frozen = true;
+        transactionHistory.add("Account frozen");
+    }
+
+    public void unfreezeAccount() {
+        this.frozen = false;
+        transactionHistory.add("Account unfrozen");
+    }
+
+    public boolean isFrozen() {
+        return this.frozen;
     }
 
     public void setOverdraftLimit(double limit) {
