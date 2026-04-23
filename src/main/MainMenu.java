@@ -104,7 +104,7 @@ public class MainMenu {
      public void performAccountMenuCreation(){
         int bankNumber = attemptAccountSelection();
         if (bankNumber != -1){
-            AccountMenu selectedMenu = new AccountMenu(accountList.getAccount(bankNumber - 1));
+            AccountMenu selectedMenu = new AccountMenu(accountList.getAccount(bankNumber - 1), accountList);
             selectedMenu.run();
         }else{
             System.out.print("Failed to select account");
