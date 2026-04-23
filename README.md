@@ -31,6 +31,8 @@ A command-line Java banking application that allows customers to manage bank acc
 17. A bank customer should be able to receive an alert when their balance falls below $20.
 18. A bank customer should be able to rename their bank account.
 19. A bank customer should be able to designate their account as Savings or Checking.
+20. The AccountMenu overdraft and low balance alert sub-menus should be refactored into separate classes following proper OOP design.
+21. A bank administrator should be able to apply interest or fees to all accounts, all checking accounts, or all savings accounts at once.
 
 ## What user stories were completed this iteration?
 
@@ -38,10 +40,12 @@ A command-line Java banking application that allows customers to manage bank acc
 2. A bank administrator should be able to print the name, type, and balance for all accounts, as well as the total balance for all accounts combined. (Luke)
 3. A bank customer should be able to freeze and unfreeze their account to block transactions until unfrozen. (Adip)
 4. A bank customer should pay a $0.50 withdrawal fee on each withdrawal from the account menu (not on transfers), with notice before withdrawing. (Adip)
+5. The AccountMenu overdraft and low balance alert sub-menus were refactored into separate OverdraftMenu and LowBalanceAlertMenu classes, each following the same displayOptions/getUserSelection/processInput/run pattern as the main menus. Admin login from the account menu was also fixed. (Mitchell)
+6. A bank administrator can now apply interest or fees to all accounts, all checking accounts, or all savings accounts at once, in addition to individual accounts. (Mitchell)
 
 ## What user stories do you intend to complete next iteration?
 
-We intend to add user account management with password protection and file persistence to save and load account data between sessions.
+This is the final iteration. All planned features have been implemented.
 
 ## Is there anything that you implemented but doesn't currently work?
 
